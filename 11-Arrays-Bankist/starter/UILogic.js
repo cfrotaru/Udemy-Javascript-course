@@ -114,6 +114,14 @@ export default class UILogic {
   }
 
   initiateFunctions() {
+    this.updateTimer = function (timeLeft) {
+      //timeLeft in seconds
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      this.labelTimer.textContent = `${minutes
+        .toString()
+        .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    };
     this.displayMovement = function (
       movement,
       count,

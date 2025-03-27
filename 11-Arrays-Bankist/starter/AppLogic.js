@@ -3,6 +3,7 @@ import AccountData from './AccountData.js';
 import UIUpdater from './UILogic.js';
 export default class AppLogic {
   constructor() {
+    this.timeToLogout = 2; // in minutes
     this.data = new AccountData();
     this.ui = new UIUpdater();
 
@@ -21,6 +22,24 @@ export default class AppLogic {
 
   utils() {
     console.log('Utils happens!!!');
+    this.logOut = function () {
+      this.currentLoggedInAccount = null;
+      this.ui.updateUI();
+      clearInterval(this.intervalId);
+      console.log('Logged out!');
+    };
+
+    this.timer = function (optionalTimer = this.timeToLogout) {
+      let timeLeft = optionalTimer * 60; // transform from minutes to seconds
+      clearInterval(this.intervalId);
+      this.intervalId = setInterval(() => {
+        timeLeft -= 1;
+        this.ui.updateTimer(timeLeft);
+        if (timeLeft === 0) {
+          this.logOut();
+        }
+      }, 1000);
+    };
     this.logIn = function (formData) {
       const account = this.data.getAccount(
         formData.get('login-user'),
@@ -30,6 +49,7 @@ export default class AppLogic {
         this.currentLoggedInAccount = account;
         this.ui.updateUI(account.at(1));
         console.log('Successful login');
+        this.timer();
       } else {
         alert('Login failed');
       }
@@ -48,6 +68,7 @@ export default class AppLogic {
         this.currentLoggedInAccount.at(1).movementsDates = senderMovementsDates;
         this.ui.updateUI(this.currentLoggedInAccount.at(1));
       }
+      this.timer();
     };
 
     this.loan = function (formData) {
@@ -68,12 +89,7 @@ export default class AppLogic {
         this.currentLoggedInAccount.at(1).movementsDates = movementsDates;
         this.ui.updateUI(this.currentLoggedInAccount.at(1));
       }
-    };
-
-    this.logOut = function () {
-      this.currentLoggedInAccount = null;
-      this.ui.updateUI();
-      console.log('Login failed');
+      this.timer();
     };
 
     this.closeAccount = function (formData) {
