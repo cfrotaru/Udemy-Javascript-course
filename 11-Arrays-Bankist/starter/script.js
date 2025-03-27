@@ -18,10 +18,15 @@ cc.checkDogs(juliaData[0], kateData[0]);
 cc.checkDogs(juliaData[1], kateData[1]);
 
 //cc#2
-const testData1 = [5, 2, 4, 1, 15, 8, 3];
-const testData2 = [16, 6, 10, 5, 6, 1, 4];
-cc.calcAverageHumanAge(testData1);
-cc.calcAverageHumanAge(testData2);
+const cc2testData1 = [5, 2, 4, 1, 15, 8, 3];
+const cc2testData2 = [16, 6, 10, 5, 6, 1, 4];
+cc.calcAverageHumanAge(cc2testData1);
+cc.calcAverageHumanAge(cc2testData2);
 
-cc.calcAverageHumanAgeZ(testData1);
-cc.calcAverageHumanAgeZ(testData2);
+//cc#3
+
+const cc3testData1 = [5, 2, 4, 1, 15, 8, 3];
+const cc3testData2 = [16, 6, 10, 5, 6, 1, 4];
+
+cc.calcAverageHumanAge(cc3testData1);
+cc.calcAverageHumanAge(cc3testData2);
