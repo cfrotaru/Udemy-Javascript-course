@@ -52,6 +52,7 @@ export default class AccountData {
       interestRate: 1,
       pin: 4444,
     });
+
     this.availableMoney = function (id) {
       const account = accounts.get(id);
       if (account) {
@@ -87,24 +88,28 @@ export default class AccountData {
     this.transferFunds = function (senderId, receiverId, amount) {
       const sender = accounts.get(senderId);
       const receiver = accounts.get(receiverId);
-      amount = Number(amount);
-      console.log(
-        `Sender: ${sender}, Receiver: ${receiver}, Amount: ${amount} Available: ${this.availableMoney(
-          senderId
-        )}`
+
+      const sentAmount = Number(amount);
+      const receivedAmount = convertCurrency(
+        sentAmount,
+        sender.currency,
+        receiver.currency
       );
+
       if (
         sender &&
         receiver &&
-        amount &&
-        amount > 0 &&
-        this.availableMoney(senderId) >= amount
+        sentAmount &&
+        sentAmount > 0 &&
+        receivedAmount &&
+        receivedAmount > 0 &&
+        this.availableMoney(senderId) >= sentAmount
       ) {
         let [senderMovements, senderMovementsDates] = pushMovement(
           senderId,
-          -amount
+          -sentAmount
         );
-        pushMovement(receiverId, amount);
+        pushMovement(receiverId, receivedAmount);
         console.log('Transfer successful');
         return [senderMovements, senderMovementsDates];
       } else {
@@ -118,11 +123,8 @@ export default class AccountData {
       amount = Number(amount);
       if (account && amount && amount > 0) {
         if (account.movements.some(mov => mov * 0.1 >= amount)) {
-          account.movements.push(amount);
-          account.movementsDates.push(new Date().toISOString());
-          accounts.set(id, account);
-          console.log('Loan successfull');
-          return [account.movements, account.movementsDates];
+          console.log(`Loan successful`);
+          return pushMovement(id, amount);
         }
       }
       alert('Loan failed');
@@ -131,11 +133,59 @@ export default class AccountData {
 
     function pushMovement(id, movement) {
       const account = accounts.get(id);
+
       if (account) {
+        if (!account.movementsDates) {
+          account.movementsDates = Array(account.movements.length).fill(
+            new Date().toISOString()
+          );
+        }
         account.movements.push(movement);
         account.movementsDates.push(new Date().toISOString());
         accounts.set(id, account);
         return [account.movements, account.movementsDates];
+      }
+    }
+
+    function convertCurrency(
+      amount,
+      senderCurrency = 'EUR',
+      receiverCurrency = 'EUR'
+    ) {
+      console.log(
+        `@convertCurrency: ${amount} ${senderCurrency} -> ${receiverCurrency}`
+      );
+      if (senderCurrency === receiverCurrency) {
+        return amount;
+      }
+      const cRate = currencyRate(senderCurrency, receiverCurrency);
+      return Number((amount * cRate).toFixed(2));
+
+      function currencyRate(senderCurrency, receiverCurrency) {
+        const currencyRates = new Map([
+          [
+            'EUR',
+            new Map([
+              ['USD', 1.1],
+              ['GBP', 0.8],
+            ]),
+          ],
+          [
+            'USD',
+            new Map([
+              ['EUR', 0.9],
+              ['GBP', 0.7],
+            ]),
+          ],
+          [
+            'GBP',
+            new Map([
+              ['USD', 1.3],
+              ['EUR', 1.2],
+            ]),
+          ],
+        ]);
+        return currencyRates.get(senderCurrency).get(receiverCurrency);
       }
     }
   }

@@ -146,7 +146,7 @@ export default class UILogic {
     };
     this.displayMovements = function (
       movements,
-      movementsDates = null,
+      movementsDates = [],
       currency = 'EUR',
       order = 'desc'
     ) {
