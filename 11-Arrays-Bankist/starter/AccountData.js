@@ -87,12 +87,19 @@ export default class AccountData {
     this.transferFunds = function (senderId, receiverId, amount) {
       const sender = accounts.get(senderId);
       const receiver = accounts.get(receiverId);
+      amount = Number(amount);
       console.log(
         `Sender: ${sender}, Receiver: ${receiver}, Amount: ${amount} Available: ${this.availableMoney(
           senderId
         )}`
       );
-      if (sender && receiver && this.availableMoney(senderId) >= amount) {
+      if (
+        sender &&
+        receiver &&
+        amount &&
+        amount > 0 &&
+        this.availableMoney(senderId) >= amount
+      ) {
         let [senderMovements, senderMovementsDates] = pushMovement(
           senderId,
           -amount
@@ -104,6 +111,22 @@ export default class AccountData {
         alert('Transfer failed');
         return [null, null];
       }
+    };
+
+    this.requestLoan = function (id, amount) {
+      const account = accounts.get(id);
+      amount = Number(amount);
+      if (account && amount && amount > 0) {
+        if (account.movements.some(mov => mov * 0.1 >= amount)) {
+          account.movements.push(amount);
+          account.movementsDates.push(new Date().toISOString());
+          accounts.set(id, account);
+          console.log('Loan successfull');
+          return [account.movements, account.movementsDates];
+        }
+      }
+      alert('Loan failed');
+      return [null, null];
     };
 
     function pushMovement(id, movement) {

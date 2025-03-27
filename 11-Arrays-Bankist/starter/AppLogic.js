@@ -12,7 +12,7 @@ export default class AppLogic {
     this.ui.initiateForms(
       this.logIn.bind(this),
       this.transfer.bind(this),
-      null,
+      this.loan.bind(this),
       this.closeAccount.bind(this)
     );
 
@@ -36,9 +36,9 @@ export default class AppLogic {
     };
 
     this.transfer = function (formData) {
-      let receiverId = formData.get('transfer-to');
-      let amount = formData.get('transfer-amount');
-      let [senderMovements, senderMovementsDates] = this.data.transferFunds(
+      const receiverId = formData.get('transfer-to');
+      const amount = formData.get('transfer-amount');
+      const [senderMovements, senderMovementsDates] = this.data.transferFunds(
         this.currentLoggedInAccount.at(0),
         receiverId,
         amount
@@ -46,6 +46,26 @@ export default class AppLogic {
       if (senderMovements && senderMovementsDates) {
         this.currentLoggedInAccount.at(1).movements = senderMovements;
         this.currentLoggedInAccount.at(1).movementsDates = senderMovementsDates;
+        this.ui.updateUI(this.currentLoggedInAccount.at(1));
+      }
+    };
+
+    this.loan = function (formData) {
+      const amount = formData.get('loan-amount');
+      const [movements, movementsDates] = this.data.requestLoan(
+        this.currentLoggedInAccount.at(0),
+        amount
+      );
+
+      if (movements && movementsDates) {
+        console.log(
+          `Movements: ${movements}, Movements Dates: ${movementsDates}`
+        );
+        console.log(
+          `Current Logged In Account: ${this.currentLoggedInAccount.at(1)}`
+        );
+        this.currentLoggedInAccount.at(1).movements = movements;
+        this.currentLoggedInAccount.at(1).movementsDates = movementsDates;
         this.ui.updateUI(this.currentLoggedInAccount.at(1));
       }
     };
