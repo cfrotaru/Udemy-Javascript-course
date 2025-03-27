@@ -3,7 +3,7 @@ import AccountData from './AccountData.js';
 import UIUpdater from './UILogic.js';
 export default class AppLogic {
   constructor() {
-    this.timeToLogout = 2; // in minutes
+    this.timeToLogout = 5; // in minutes
     this.data = new AccountData();
     this.ui = new UIUpdater();
 

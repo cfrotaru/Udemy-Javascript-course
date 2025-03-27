@@ -201,20 +201,20 @@ export default class UILogic {
       this.labelDate.textContent = new Date().toLocaleString();
       this.labelBalance.textContent = `${account.movements
         .reduce((acc, mov) => acc + mov, 0)
-        .toFixed(2)}€`;
+        .toFixed(2)}${this.getCurrencySymbol(account)}`;
       this.labelSumIn.textContent = `${account.movements
         .filter(mov => mov > 0)
         .reduce((acc, mov) => acc + mov, 0)
-        .toFixed(2)}€`;
+        .toFixed(2)}${this.getCurrencySymbol(account)}`;
       this.labelSumOut.textContent = `${account.movements
         .filter(mov => mov < 0)
         .reduce((acc, mov) => acc + mov, 0)
-        .toFixed(2)}€`;
+        .toFixed(2)}${this.getCurrencySymbol(account)}`;
       this.labelSumInterest.textContent = `${(
         (account.movements.reduce((acc, mov) => acc + mov, 0) *
           account.interestRate) /
         100
-      ).toFixed(2)}€`;
+      ).toFixed(2)}${this.getCurrencySymbol(account)}`;
 
       this.displayMovements(
         account.movements,
@@ -226,5 +226,11 @@ export default class UILogic {
     } else {
       this.containerApp.style.opacity = 0;
     }
+  }
+
+  getCurrencySymbol(account) {
+    return account && account.currency
+      ? this.currencySymbols.get(account.currency)
+      : '€';
   }
 }
