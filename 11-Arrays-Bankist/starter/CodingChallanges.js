@@ -14,4 +14,16 @@ export default class CodingChallange {
       );
     });
   }
+  calcAverageHumanAge(ages) {
+    const humanAges = [];
+    ages.forEach(dog => {
+      if (dog <= 2) humanAges.push(2 * dog);
+      else humanAges.push(16 + 4 * dog);
+    });
+    let average = humanAges
+      .filter(age => age >= 18)
+      .reduce((averageAge, age, _, arr) => averageAge + age / arr.length, 0);
+    console.log(`Human Ages: ${humanAges}`);
+    console.log(`Average human ages: ${average}`);
+  }
 }
