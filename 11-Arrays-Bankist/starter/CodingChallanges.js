@@ -28,9 +28,10 @@ export default class CodingChallange {
   }
 
   checkDogsEatingPortions(dogs) {
-    //1 //2
+    //1
+    dogs.map(dog => (dog.recommendedFood = dog.weight ** 0.75 * 28));
+    //2
     dogs.forEach(dog => {
-      dog.recommendedFood = dog.weight ** 0.75 * 28;
       if (dog.owners.some(owner => owner === 'Sarah')) {
         if (dog.curFood < dog.recommendedFood * 0.9) {
           console.log(`Sarah's dog eats too little`);
