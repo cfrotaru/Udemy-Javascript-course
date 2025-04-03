@@ -2,7 +2,7 @@
 import AppLogic from './AppLogic.js';
 import CodingChallange from './CodingChallanges.js';
 
-//const al = new AppLogic();
+const al = new AppLogic();
 console.log('script is running!!!');
 //cc#1
 const juliaData = [

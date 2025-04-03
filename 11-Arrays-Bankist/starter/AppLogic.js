@@ -50,8 +50,10 @@ export default class AppLogic {
         this.ui.updateUI(account.at(1));
         console.log('Successful login');
         this.timer();
+        return true;
       } else {
         alert('Login failed');
+        return false;
       }
     };
 

@@ -84,7 +84,14 @@ export default class UILogic {
       this.btnLogin.type = 'submit';
       this.loginForm.addEventListener('submit', e => {
         e.preventDefault();
-        loginHandler(new FormData(this.loginForm));
+        if (loginHandler(new FormData(this.loginForm))) {
+          this.loginForm.reset();
+          this.inputLoginUsername.blur();
+          this.inputLoginPin.blur();
+        } else {
+          this.loginForm.reset();
+          this.inputLoginUsername.focus();
+        }
       });
     }
 
