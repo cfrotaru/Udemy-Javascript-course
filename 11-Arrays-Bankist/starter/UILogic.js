@@ -80,16 +80,29 @@ export default class UILogic {
     loanHandler = null,
     closeHandler = null
   ) {
+    this.clearForms = function () {
+      this.loginForm.reset();
+      this.transferForm.reset();
+      this.loanForm.reset();
+      this.closeForm.reset();
+
+      this.inputLoginUsername.blur();
+      this.inputLoginPin.blur();
+      this.inputTransferTo.blur();
+      this.inputTransferAmount.blur();
+      this.inputLoanAmount.blur();
+      this.inputCloseUsername.blur();
+      this.inputClosePin.blur();
+    };
+
     if (loginHandler) {
       this.btnLogin.type = 'submit';
       this.loginForm.addEventListener('submit', e => {
         e.preventDefault();
         if (loginHandler(new FormData(this.loginForm))) {
-          this.loginForm.reset();
-          this.inputLoginUsername.blur();
-          this.inputLoginPin.blur();
+          this.clearForms();
         } else {
-          this.loginForm.reset();
+          this.clearForms();
           this.inputLoginUsername.focus();
         }
       });
@@ -100,6 +113,7 @@ export default class UILogic {
       this.transferForm.addEventListener('submit', e => {
         e.preventDefault();
         transferHandler(new FormData(this.transferForm));
+        this.clearForms();
       });
     }
 
@@ -108,6 +122,7 @@ export default class UILogic {
       this.loanForm.addEventListener('submit', e => {
         e.preventDefault();
         loanHandler(new FormData(this.loanForm));
+        this.clearForms();
       });
     }
 
@@ -116,6 +131,7 @@ export default class UILogic {
       this.closeForm.addEventListener('submit', e => {
         e.preventDefault();
         closeHandler(new FormData(this.closeForm));
+        this.clearForms();
       });
     }
   }

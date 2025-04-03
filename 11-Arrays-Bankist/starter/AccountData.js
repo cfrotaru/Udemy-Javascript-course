@@ -86,6 +86,10 @@ export default class AccountData {
     };
 
     this.transferFunds = function (senderId, receiverId, amount) {
+      if (senderId === receiverId) {
+        alert('Transfer failed');
+        return [null, null];
+      }
       const sender = accounts.get(senderId);
       const receiver = accounts.get(receiverId);
 
