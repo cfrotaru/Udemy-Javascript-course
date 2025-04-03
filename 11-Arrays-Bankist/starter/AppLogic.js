@@ -18,6 +18,7 @@ export default class AppLogic {
     );
 
     this.ui.initiateButtons(this);
+    this.demoLogIn('js', 1111);
   }
 
   utils() {
@@ -39,6 +40,19 @@ export default class AppLogic {
           this.logOut();
         }
       }, 1000);
+    };
+    this.demoLogIn = function (id, pin) {
+      const account = this.data.getAccount(id, pin);
+      if (account) {
+        this.currentLoggedInAccount = account;
+        this.ui.updateUI(account.at(1));
+        console.log('Successful login');
+        this.timer();
+        return true;
+      } else {
+        alert('Login failed');
+        return false;
+      }
     };
     this.logIn = function (formData) {
       const account = this.data.getAccount(
