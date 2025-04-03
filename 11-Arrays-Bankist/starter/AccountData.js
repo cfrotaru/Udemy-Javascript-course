@@ -126,7 +126,7 @@ export default class AccountData {
       const account = accounts.get(id);
       amount = Number(amount);
       if (account && amount && amount > 0) {
-        if (account.movements.some(mov => mov * 0.1 >= amount)) {
+        if (account.movements.some(mov => mov >= amount * 0.1)) {
           console.log(`Loan successful`);
           return pushMovement(id, amount);
         }
