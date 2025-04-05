@@ -93,7 +93,7 @@ export default class AccountData {
       const sender = accounts.get(senderId);
       const receiver = accounts.get(receiverId);
 
-      const sentAmount = Number(amount);
+      const sentAmount = Number(Number(amount).toFixed(2));
       const receivedAmount = convertCurrency(
         sentAmount,
         sender.currency,
@@ -124,7 +124,7 @@ export default class AccountData {
 
     this.requestLoan = function (id, amount) {
       const account = accounts.get(id);
-      amount = Number(amount);
+      amount = Number.floor(amount);
       if (account && amount && amount > 0) {
         if (account.movements.some(mov => mov >= amount * 0.1)) {
           console.log(`Loan successful`);

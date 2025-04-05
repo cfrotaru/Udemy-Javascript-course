@@ -157,9 +157,10 @@ export default class UILogic {
       const html = `
             <div class="movements__row">
                 <div class="movements__type movements__type--${type}">${count} ${type}</div>
-                <div class="movements__date">${new Date(
-                  movementDate
-                ).toLocaleDateString()}</div>
+                <div class="movements__date">${this.getFormatedDate(
+                  movementDate,
+                  false
+                )}</div>
                 <div class="movements__value">${amount}${this.currencySymbols.get(
         currency
       )}</div>
@@ -221,7 +222,7 @@ export default class UILogic {
       this.labelWelcome.textContent = `Welcome back, ${
         account.owner.split(' ')[0]
       }`;
-      this.labelDate.textContent = new Date().toLocaleString();
+      this.labelDate.textContent = this.getFormatedDate();
       this.labelBalance.textContent = `${account.movements
         .reduce((acc, mov) => acc + mov, 0)
         .toFixed(2)}${this.getCurrencySymbol(account)}`;
@@ -255,5 +256,20 @@ export default class UILogic {
     return account && account.currency
       ? this.currencySymbols.get(account.currency)
       : '€';
+  }
+
+  getFormatedDate(date = new Date(), includeTime = true) {
+    date = new Date(date);
+    const options = {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    };
+    if (includeTime) {
+      options.hour = 'numeric';
+      options.minute = 'numeric';
+    }
+
+    return new Intl.DateTimeFormat(navigator.language, options).format(date);
   }
 }
