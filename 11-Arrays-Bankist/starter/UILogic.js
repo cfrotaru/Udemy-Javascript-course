@@ -157,13 +157,14 @@ export default class UILogic {
       const html = `
             <div class="movements__row">
                 <div class="movements__type movements__type--${type}">${count} ${type}</div>
-                <div class="movements__date">${this.getFormatedDate(
+                <div class="movements__date">${this.getFormattedDate(
                   movementDate,
                   false
                 )}</div>
-                <div class="movements__value">${amount}${this.currencySymbols.get(
-        currency
-      )}</div>
+                <div class="movements__value">${this.getFormattedMoney(
+                  amount,
+                  currency
+                )}</div>
             </div>
         `;
       this.containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -222,23 +223,29 @@ export default class UILogic {
       this.labelWelcome.textContent = `Welcome back, ${
         account.owner.split(' ')[0]
       }`;
-      this.labelDate.textContent = this.getFormatedDate();
-      this.labelBalance.textContent = `${account.movements
-        .reduce((acc, mov) => acc + mov, 0)
-        .toFixed(2)}${this.getCurrencySymbol(account)}`;
-      this.labelSumIn.textContent = `${account.movements
-        .filter(mov => mov > 0)
-        .reduce((acc, mov) => acc + mov, 0)
-        .toFixed(2)}${this.getCurrencySymbol(account)}`;
-      this.labelSumOut.textContent = `${account.movements
-        .filter(mov => mov < 0)
-        .reduce((acc, mov) => acc + mov, 0)
-        .toFixed(2)}${this.getCurrencySymbol(account)}`;
-      this.labelSumInterest.textContent = `${(
+      this.labelDate.textContent = this.getFormattedDate();
+      this.labelBalance.textContent = `${this.getFormattedMoney(
+        account.movements.reduce((acc, mov) => acc + mov, 0),
+        account.currency
+      )}`;
+      this.labelSumIn.textContent = `${this.getFormattedMoney(
+        account.movements
+          .filter(mov => mov > 0)
+          .reduce((acc, mov) => acc + mov, 0),
+        account.currency
+      )}`;
+      this.labelSumOut.textContent = `${this.getFormattedMoney(
+        account.movements
+          .filter(mov => mov < 0)
+          .reduce((acc, mov) => acc + mov, 0),
+        account.currency
+      )}`;
+      this.labelSumInterest.textContent = `${this.getFormattedMoney(
         (account.movements.reduce((acc, mov) => acc + mov, 0) *
           account.interestRate) /
-        100
-      ).toFixed(2)}${this.getCurrencySymbol(account)}`;
+          100,
+        account.currency
+      )}`;
 
       this.displayMovements(
         account.movements,
@@ -258,7 +265,7 @@ export default class UILogic {
       : '€';
   }
 
-  getFormatedDate(date = new Date(), includeTime = true) {
+  getFormattedDate(date = new Date(), includeTime = true) {
     date = new Date(date);
     const options = {
       day: 'numeric',
@@ -271,5 +278,16 @@ export default class UILogic {
     }
 
     return new Intl.DateTimeFormat(navigator.language, options).format(date);
+  }
+
+  getFormattedMoney(amount, currency = 'EUR') {
+    const options = {
+      style: 'currency',
+      currencyDisplay: 'symbol',
+      currency,
+    };
+    return Intl.NumberFormat(navigator.language, options).format(
+      amount.toFixed(2)
+    );
   }
 }
