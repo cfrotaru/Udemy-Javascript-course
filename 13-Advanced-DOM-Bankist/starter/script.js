@@ -147,3 +147,43 @@ document.querySelector('.nav').addEventListener(
   },
   true
 );
+
+const h1 = document.querySelector('h1');
+
+//Going downwards: child
+
+console.log(h1.querySelectorAll('.highlight'));
+console.log(h1.childNodes);
+console.log(h1.children);
+h1.firstElementChild.style.color = 'white';
+h1.lastElementChild.style.color = 'orangered';
+
+const operationsElement = document.querySelector('.operations');
+operationsElement.addEventListener('click', function (e) {
+  // const clicked = e.target.parentElement.classList.contains('operations__tab')
+  //   ? e.target.parentElement
+  //   : e.target;
+  const clicked = e.target.closest('.operations__tab');
+
+  if (clicked?.classList.contains('operations__tab')) {
+    if (!clicked.classList.contains('operations__tab--active')) {
+      // Find and 'Deactivate' the current active tab and content
+      document
+        .querySelector('.operations__tab--active')
+        .classList.toggle('operations__tab--active', false);
+      document
+        .querySelector('.operations__content--active')
+        .classList.toggle('operations__content--active', false);
+
+      // Activate the desired tab and content
+      const btnNum = clicked.dataset.tab;
+      console.log(`btnNum: `, btnNum);
+
+      clicked.classList.toggle('operations__tab--active', true);
+      this.querySelector(`.operations__content--${btnNum}`).classList.toggle(
+        'operations__content--active',
+        true
+      );
+    }
+  }
+});
