@@ -13,10 +13,12 @@ class Car {
   accelerate() {
     this.speed += 10;
     this.logSpeed();
+    return this;
   }
   brake() {
     this.speed -= 5;
     this.logSpeed();
+    return this;
   }
 
   get speed() {
@@ -66,3 +68,52 @@ car3.accelerate();
 car3.setUnitToKMH();
 car3.setUnitToMPH();
 car3.accelerate();
+
+class EV extends Car {
+  constructor(make, speed, charge, unit = 'km/h') {
+    super(make, speed, unit);
+    this.charge = charge;
+  }
+  set charge(charge) {
+    this._charge = charge;
+  }
+
+  get charge() {
+    return this._charge;
+  }
+  chargeBattery(chargeTo) {
+    if (isNaN(chargeTo) || chargeTo < this.charge) {
+      console.log(`Charger is not connected!`);
+      return this;
+    }
+    if (chargeTo > 100) {
+      console.log(`KBOOOOOM! ${this.make} is gone!`);
+      return this;
+    }
+    this.charge = chargeTo;
+    console.log(`${this.make} has reached ${chargeTo}% battery!`);
+    return this;
+  }
+  accelerate() {
+    if (this.charge < 1) {
+      console.log(`No battery left`);
+      return this;
+    }
+
+    this.speed += 20;
+    this.charge--;
+    console.log(
+      `${this.make} going at ${this.speed} ${this.unit}, with a charge of ${this.charge}%`
+    );
+    return this;
+  }
+}
+
+const tesla = new EV('Tesla', 120, 23);
+
+tesla.accelerate();
+tesla.chargeBattery(120);
+tesla.chargeBattery(100);
+tesla.brake();
+tesla.accelerate();
+tesla.accelerate().accelerate().brake().accelerate();
