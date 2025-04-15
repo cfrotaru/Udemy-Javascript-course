@@ -70,16 +70,17 @@ car3.setUnitToMPH();
 car3.accelerate();
 
 class EV extends Car {
+  #charge = 0;
   constructor(make, speed, charge, unit = 'km/h') {
     super(make, speed, unit);
-    this.charge = charge;
+    this.#charge = charge;
   }
   set charge(charge) {
-    this._charge = charge;
+    this.#charge = charge;
   }
 
   get charge() {
-    return this._charge;
+    return this.#charge;
   }
   chargeBattery(chargeTo) {
     if (isNaN(chargeTo) || chargeTo < this.charge) {
