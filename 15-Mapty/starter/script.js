@@ -20,12 +20,23 @@ navigator.geolocation.getCurrentPosition(
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
-
-    L.marker(coords)
-      .addTo(map)
-      .bindPopup('A pretty CSS popup.<br> Easily customizable.')
-      .openPopup();
-
+    var count = 0;
+    map.on('click', function (mapEvent) {
+      const { lat, lng } = mapEvent.latlng;
+      L.marker([lat, lng])
+        .addTo(map)
+        .bindPopup(
+          L.popup({
+            minWidth: 100,
+            maxWidth: 250,
+            autoClose: false,
+            closeOnClick: false,
+            className: 'running-popup',
+          })
+        )
+        .setPopupContent(`#${++count}`)
+        .openPopup();
+    });
     console.log(`https://www.google.com/maps/@${latitude},${longitude},20z`);
   },
   function () {
