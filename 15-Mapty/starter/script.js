@@ -33,7 +33,10 @@ const createMarker = function (markerOptions) {
     .setPopupContent(`${markerOptions.getPopupContent()}`)
     .openPopup();
   marker.id = markerOptions.id;
+  marker.lat = lat;
+  marker.lng = lng;
   markers.push(marker);
+  console.log(markers);
 };
 
 const createMarkerListItem = function (markerOptions) {
@@ -168,6 +171,11 @@ navigator.geolocation.getCurrentPosition(
   }
 );
 const goToWorkout = function (e) {
-  //TO-DO
+  if (e.target.classList.contains('workout') || e.target.closest('.workout')) {
+    const id = Number(e.target.closest('.workout').dataset.id);
+    const marker = markers.find(m => m.id === id);
+    console.log(marker);
+    map.setView([marker.lat, marker.lng], 14);
+  }
 };
 containerWorkouts.addEventListener('click', goToWorkout);
