@@ -179,8 +179,11 @@ const goToWorkout = function (e) {
   if (e.target.classList.contains('workout') || e.target.closest('.workout')) {
     const id = Number(e.target.closest('.workout').dataset.id);
     const marker = markers.find(m => m.id === id);
-    console.log(marker);
-    map.setView([marker.lat, marker.lng], 14);
+
+    map.flyTo([marker.lat, marker.lng], 14, {
+      animate: true,
+      duration: 0.5, // duration in seconds
+    });
   }
 };
 
