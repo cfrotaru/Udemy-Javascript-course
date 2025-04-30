@@ -101,7 +101,7 @@ const createMarkerOptions = function () {
     getSpeed() {
       return this.type === 'running'
         ? (this.duration / this.distance).toFixed(1)
-        : this.distance * (60 / this.duration); //if is running, then it shows how many minutes it takes per KM, if cycling, KM per Hour
+        : (this.distance * (60 / this.duration)).toFixed(1); //if is running, then it shows how many minutes it takes per KM, if cycling, KM per Hour
     },
     getSpeedUnit() {
       return this.type === 'running' ? 'MIN/KM' : 'KM/H';
@@ -123,6 +123,11 @@ const createMarkerOptions = function () {
     },
   };
   return markerOptions;
+};
+const resetForm = function () {
+  form.reset();
+  inputCadence.parentElement.classList.remove('form__row--hidden');
+  inputElevation.parentElement.classList.add('form__row--hidden');
 };
 
 const submitForm = function (e) {
@@ -148,7 +153,7 @@ const submitForm = function (e) {
       `Please fill in valid numbers for: ${missingOrInvalid.join(', ')}`
     );
   createMarkerListItem(createMarkerOptions());
-  form.reset();
+  resetForm();
   form.classList.add('hidden');
 };
 
@@ -178,4 +183,11 @@ const goToWorkout = function (e) {
     map.setView([marker.lat, marker.lng], 14);
   }
 };
+
+const toggleWorkoutType = function () {
+  inputCadence.parentElement.classList.toggle('form__row--hidden');
+  inputElevation.parentElement.classList.toggle('form__row--hidden');
+};
+
+inputType.addEventListener('change', toggleWorkoutType);
 containerWorkouts.addEventListener('click', goToWorkout);
