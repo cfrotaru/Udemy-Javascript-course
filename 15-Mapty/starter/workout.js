@@ -10,7 +10,6 @@ class Workout {
     this.month = month;
     this.lat = lat;
     this.lng = lng;
-    this.getPopupContent;
     this.workoutIcon;
   }
 }

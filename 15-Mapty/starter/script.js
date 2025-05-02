@@ -14,16 +14,15 @@ const runningType = 'running';
 const cyclingType = 'cycling';
 
 class App {
-  map;
-  markers = [];
+  #map;
+  #markers = [];
   workoutsData = [];
   _currentCoords;
-  _markerId;
   constructor() {
     this._showForm = this._showForm.bind(this);
     this._submitForm = this._submitForm.bind(this);
     this._goToWorkout = this._goToWorkout.bind(this);
-    this._markerId = this.workoutsData.at(-1)?.id ?? 0;
+
     form.addEventListener('submit', this._submitForm);
     inputType.addEventListener('change', this._toggleWorkoutType);
     containerWorkouts.addEventListener('click', this._goToWorkout);
@@ -42,22 +41,22 @@ class App {
 
   _loadMap() {
     let coords = [0, 0];
-    this.map = L.map('map').setView(coords, 5);
+    this.#map = L.map('map').setView(coords, 5);
     L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
+    }).addTo(this.#map);
 
-    this.map.on('click', this._showForm);
+    this.#map.on('click', this._showForm);
 
     if (this.workoutsData.length) {
       this.workoutsData.forEach(data => {
-        this._createWorkoutMarker(data);
+        this._createWorkoutMarker(data, true);
         this._createWorkoutListItem(data);
       });
       coords = [this.workoutsData.at(-1).lat, this.workoutsData.at(-1).lng];
       console.log(`workoutsData: `, this.workoutsData);
-      this.map.flyTo(coords, 14, {
+      this.#map.flyTo(coords, 14, {
         animate: true,
         duration: 0.5, // duration in seconds
       });
@@ -70,7 +69,7 @@ class App {
   }
   _getPosition() {
     const coords = [];
-    const map = this.map;
+    const map = this.#map;
     navigator.geolocation.getCurrentPosition(
       function (position) {
         const { latitude, longitude } = position.coords;
@@ -104,7 +103,7 @@ class App {
 
   _addWorkoutMarkerToMap(marker, workoutInfo) {
     marker
-      .addTo(this.map)
+      .addTo(this.#map)
       .bindPopup(
         L.popup({
           minWidth: 100,
@@ -118,12 +117,12 @@ class App {
       .openPopup();
   }
 
-  _createWorkoutMarker(workoutInfo) {
+  _createWorkoutMarker(workoutInfo, loadedFromLocalStorage = false) {
     const marker = L.marker([workoutInfo.lat, workoutInfo.lng]);
     marker.id = workoutInfo.id;
     this._addWorkoutMarkerToMap(marker, workoutInfo);
-    this.markers.push(marker);
-    this.workoutsData.push(workoutInfo);
+    this.#markers.push(marker);
+    if (!loadedFromLocalStorage) this.workoutsData.push(workoutInfo);
   }
 
   _createWorkoutListItem(workoutInfo) {
@@ -206,7 +205,7 @@ class App {
       const id = Number(e.target.closest('.workout').dataset.id);
       const marker = this.workoutsData.find(m => m.id === id);
 
-      this.map.flyTo([marker.lat, marker.lng], 14, {
+      this.#map.flyTo([marker.lat, marker.lng], 14, {
         animate: true,
         duration: 0.5, // duration in seconds
       });
@@ -217,7 +216,7 @@ class App {
     const formData = new FormData(form);
     const date = new Date();
     const info = {
-      id: ++this._markerId,
+      id: crypto.randomUUID,
       type: inputType.value,
       distance: formData.get('distance'),
       duration: formData.get('duration'),
