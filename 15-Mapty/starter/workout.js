@@ -27,11 +27,8 @@ class Running extends Workout {
     });
     this.type = 'running';
     this.pace = (this.duration / this.distance).toFixed(1);
-    this.paceUnit = 'MIN/KM';
     this.workoutIcon = '🏃‍♂️';
     this.cadence = +cadence;
-    this.cadenceUnit = 'SPM';
-    this.cadenceIcon = '🦶🏼';
     this.title = `Running on ${this.month} ${this.day}`;
     this.popupContent = `${this.workoutIcon} ${this.title}`;
   }
@@ -50,11 +47,8 @@ class Cycling extends Workout {
     });
     this.type = 'cycling';
     this.speed = (this.distance * (60 / this.duration)).toFixed(1);
-    this.speedUnit = 'KM/H';
     this.workoutIcon = '🚴‍♀️';
     this.elevation = +elevation;
-    this.elevationUnit = 'M';
-    this.elevationIcon = '⛰';
     this.title = `Cycling on ${this.month} ${this.day}`;
     this.popupContent = `${this.workoutIcon} ${this.title}`;
   }

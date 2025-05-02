@@ -142,20 +142,14 @@ class App {
               <span class="workout__value">${
                 running ? workoutInfo.pace : workoutInfo.speed
               }</span>
-              <span class="workout__unit">${
-                running ? workoutInfo.paceUnit : workoutInfo.speedUnit
-              }</span>
+              <span class="workout__unit">${running ? 'MIN/KM' : 'KM/H'}</span>
             </div>
             <div class="workout__details">
-              <span class="workout__icon">${
-                running ? workoutInfo.cadenceIcon : workoutInfo.elevationIcon
-              }</span>
+              <span class="workout__icon">${running ? '🦶🏼' : '⛰'}</span>
               <span class="workout__value">${
                 running ? workoutInfo.cadence : workoutInfo.elevation
               }</span>
-              <span class="workout__unit">${
-                running ? workoutInfo.cadenceUnit : workoutInfo.elevationUnit
-              }</span>
+              <span class="workout__unit">${running ? 'SPM' : 'M'}</span>
             </div>
           </li>`;
 
