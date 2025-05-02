@@ -36,7 +36,6 @@ class App {
       if (data.type === runningType) return new Running(data);
       else return new Cycling(data);
     });
-    console.log(this.workoutsData);
   }
 
   _loadMap() {
@@ -55,7 +54,6 @@ class App {
         this._createWorkoutListItem(data);
       });
       coords = [this.workoutsData.at(-1).lat, this.workoutsData.at(-1).lng];
-      console.log(`workoutsData: `, this.workoutsData);
       this.#map.flyTo(coords, 14, {
         animate: true,
         duration: 0.5, // duration in seconds
@@ -74,7 +72,6 @@ class App {
       function (position) {
         const { latitude, longitude } = position.coords;
         coords.push(latitude, longitude);
-        console.log(coords);
         map.flyTo(coords, 14, {
           animate: true,
           duration: 0.5, // duration in seconds
@@ -88,7 +85,6 @@ class App {
   }
 
   _showForm(mapEvent) {
-    console.log(mapEvent, mapEvent.latlng);
     form.reset();
     inputDistance.focus();
     this._currentCoords = [mapEvent.latlng.lat, mapEvent.latlng.lng];
