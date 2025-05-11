@@ -225,6 +225,10 @@ class App {
     inputCadence.parentElement.classList.remove('form__row--hidden');
     inputElevation.parentElement.classList.add('form__row--hidden');
   }
+  reset() {
+    localStorage.removeItem('workouts');
+    location.reload();
+  }
 }
 
 const app = new App();
