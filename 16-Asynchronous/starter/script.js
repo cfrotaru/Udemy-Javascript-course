@@ -5,6 +5,8 @@ const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 ///////////////////////////////////////
 const countries = new Countries();
-const countryName = 'romania';
+const countryName = 'argentina';
 
-await countries.getCountryDataByNameFromApi(countryName);
+btn.addEventListener('click', function () {
+  countries.getCountryDataByNameFromApi(countryName);
+});

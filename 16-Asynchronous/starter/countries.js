@@ -45,33 +45,59 @@ export class Countries {
     return country || null;
   }
 
-  async getCountryDataByNameFromApi(countryName) {
-    const request = new XMLHttpRequest();
-    request.open('GET', this.#getCountryLinkByName(countryName));
-    request.send();
-    request.addEventListener('load', () => {
-      const [data] = JSON.parse(request.responseText);
-      data.flagURL = this.getFlagURL(data.cca2);
-      this.#renderCountry(data);
-      console.log(data);
-      data.borders.forEach(countryCode => {
-        this.#getCountryDataByCodeFromApi(countryCode);
+  getCountryDataByNameFromApi(countryName) {
+    return fetch(this.#getCountryLinkByName(countryName))
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(resultData => {
+        if (!Array.isArray(resultData) || resultData.length === 0) {
+          throw new Error('No country data found.');
+        }
+
+        const data = resultData[0];
+        data.flagURL = this.getFlagURL(data.cca2);
+        this.#renderCountry(data);
+
+        data.borders?.forEach(countryCode => {
+          this.#getCountryDataByCodeFromApi(countryCode);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching country data:', error);
       });
-    });
   }
 
-  async #getCountryDataByCodeFromApi(countryCode) {
-    const request = new XMLHttpRequest();
-    request.open('GET', this.#getCountryLinkByCode(countryCode));
-    request.send();
-    request.addEventListener('load', () => {
-      const [data] = JSON.parse(request.responseText);
-      data.flagURL = this.getFlagURL(data.cca2);
-      this.#renderCountry(data, 'neighbour');
-    });
+  #getCountryDataByCodeFromApi(countryCode) {
+    return fetch(this.#getCountryLinkByCode(countryCode))
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(resultData => {
+        if (!Array.isArray(resultData) || resultData.length === 0) {
+          throw new Error('No country data found.');
+        }
+
+        const data = resultData[0];
+        data.flagURL = this.getFlagURL(data.cca2);
+        this.#renderCountry(data, 'neighbour');
+      })
+      .catch(error => {
+        console.error(
+          `Error fetching data for country code ${countryCode}:`,
+          error
+        );
+      });
   }
 
   getFlagURL(code) {
+    console.log(`code: ${code}`);
     return `https://flagcdn.com/${code.toLowerCase()}.svg`;
   }
 
@@ -92,7 +118,6 @@ export class Countries {
               ).join(', ')}</p>
             </div>
           </article>`;
-    console.log(html);
     const countriesContainer = document.querySelector('.countries');
 
     countriesContainer.insertAdjacentHTML('beforeend', html);

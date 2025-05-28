@@ -27,9 +27,11 @@ body {
 }
 
 .countries {
-  /* margin-bottom: 8rem; */
+  margin: 7rem;
   display: flex;
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 20px;
   font-size: 2rem;
   opacity: 0;
   transition: opacity 1s;
