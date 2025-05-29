@@ -49,7 +49,7 @@ export class Countries {
     return fetch(this.#getCountryLinkByName(countryName))
       .then(response => {
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          throw new Error(`Country not found! Status: ${response.status}`);
         }
         return response.json();
       })
@@ -93,6 +93,37 @@ export class Countries {
           `Error fetching data for country code ${countryCode}:`,
           error
         );
+      });
+  }
+
+  #getCurrentPositionPromise() {
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+  }
+
+  renderCurrentCountryAndNeighbours() {
+    this.#getCurrentPositionPromise()
+      .then(data => {
+        const lat = data.coords.latitude;
+        const lon = data.coords.longitude;
+
+        return fetch(
+          `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=en`,
+          {
+            headers: {
+              'User-Agent': 'YourAppNameHere/1.0',
+            },
+          }
+        );
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log(`You are in ${data.address.city}, ${data.address.country}`);
+        this.getCountryDataByNameFromApi(data.address.country);
+      })
+      .catch(err => {
+        console.error('Geolocation error:', err);
       });
   }
 

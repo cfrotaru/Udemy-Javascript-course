@@ -10,10 +10,11 @@ const countriesContainer = document.querySelector('.countries');
 const countries = new Countries();
 const countryName = 'argentina';
 
-// btnRender.addEventListener('click', function () {
-//   countriesContainer.innerHTML = '';
-//   countries.getCountryDataByNameFromApi(inputCountry.value);
-// });
+const clearAndRenderCurrentCountry = function () {
+  countriesContainer.innerHTML = '';
+  countries.renderCurrentCountryAndNeighbours.call(countries);
+};
+btn.addEventListener('click', clearAndRenderCurrentCountry);
 
 searchForm.addEventListener('submit', function (e) {
   e.preventDefault();
