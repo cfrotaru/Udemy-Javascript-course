@@ -19,6 +19,26 @@ export class Countries {
     return `https://restcountries.com/v3.1/alpha/${countryCode.toLowerCase()}`;
   }
 
+  getCountryAndNeighboursByLatLng(lat, lng) {
+    fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=en`,
+      {
+        headers: {
+          'User-Agent': 'YourAppNameHere/1.0',
+        },
+      }
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(`You are in ${data.address.city}, ${data.address.country}`);
+        this.getCountryDataByNameFromApi(data.address.country);
+      })
+      .catch(err => {
+        console.error('Geolocation error:', err);
+        this.showToast(`Geolocation error: ${err.message}`);
+      });
+  }
+
   async #fetchCountriesData() {
     try {
       if (!this.#data) {
@@ -107,29 +127,12 @@ export class Countries {
   }
 
   renderCurrentCountryAndNeighbours() {
-    this.#getCurrentPositionPromise()
-      .then(data => {
-        const lat = data.coords.latitude;
-        const lon = data.coords.longitude;
+    this.#getCurrentPositionPromise().then(data => {
+      const lat = data.coords.latitude;
+      const lng = data.coords.longitude;
 
-        return fetch(
-          `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=en`,
-          {
-            headers: {
-              'User-Agent': 'YourAppNameHere/1.0',
-            },
-          }
-        );
-      })
-      .then(res => res.json())
-      .then(data => {
-        console.log(`You are in ${data.address.city}, ${data.address.country}`);
-        this.getCountryDataByNameFromApi(data.address.country);
-      })
-      .catch(err => {
-        console.error('Geolocation error:', err);
-        this.showToast(`Geolocation error: ${err.message}`);
-      });
+      this.getCountryAndNeighboursByLatLng(lat, lng);
+    });
   }
 
   getFlagURL(code) {

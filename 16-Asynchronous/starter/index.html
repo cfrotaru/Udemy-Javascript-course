@@ -10,14 +10,23 @@
     <title>Asynchronous JavaScript</title>
   </head>
   <body>
-    <form class="country-search">
-      <input
-        type="text"
-        class="input-country"
-        placeholder="Enter country name..."
-      />
-      <button class="btn-render-countries">Show Country</button>
-    </form>
+    <div class="search-bar">
+      <form class="country-search">
+        <input
+          type="text"
+          class="input-country"
+          placeholder="Enter country name..."
+        />
+        <button class="btn-render-countries">Show Country</button>
+      </form>
+
+      <form class="coords-search">
+        <input type="text" class="input-lat" placeholder="Latitude" />
+        <input type="text" class="input-lng" placeholder="Longitude" />
+        <button class="btn-search-coords">Find Country</button>
+      </form>
+      <button class="btn-country">Where am I?</button>
+    </div>
     <main class="container">
       <div class="countries">
         <!--
@@ -33,7 +42,6 @@
         </article>
         -->
       </div>
-      <button class="btn-country">Where am I?</button>
 
       <div class="images"></div>
     </main>
