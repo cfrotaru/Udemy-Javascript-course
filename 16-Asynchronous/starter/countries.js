@@ -68,6 +68,7 @@ export class Countries {
       })
       .catch(error => {
         console.error('Error fetching country data:', error);
+        this.showToast(`Error fetching country data: ${error.message}`);
       });
   }
 
@@ -92,6 +93,9 @@ export class Countries {
         console.error(
           `Error fetching data for country code ${countryCode}:`,
           error
+        );
+        showToast(
+          `Error fetching data for country code: ${countryCode} : ${error.message}`
         );
       });
   }
@@ -124,6 +128,7 @@ export class Countries {
       })
       .catch(err => {
         console.error('Geolocation error:', err);
+        this.showToast(`Geolocation error: ${err.message}`);
       });
   }
 
@@ -154,5 +159,16 @@ export class Countries {
     countriesContainer.insertAdjacentHTML('beforeend', html);
 
     countriesContainer.style.opacity = 1;
+  }
+
+  showToast(message, duration = 3000) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    console.log(`toast happened`);
+    toast.classList.add('show');
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, duration);
   }
 }

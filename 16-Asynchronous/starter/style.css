@@ -21,6 +21,27 @@ body {
   justify-content: center; */
 }
 
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: orangered;
+  color: white;
+  padding: 1.5rem 2.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+  font-size: 1.6rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .container {
   display: flex;
   flex-flow: column;
