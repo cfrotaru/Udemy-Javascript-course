@@ -123,6 +123,9 @@ export class Countries {
   #getCurrentPositionPromise() {
     return new Promise(function (resolve, reject) {
       navigator.geolocation.getCurrentPosition(resolve, reject);
+    }).catch(err => {
+      console.error(`Couldn't retrieve location:`, err);
+      this.showToast(`Couldn't retrieve location: ${err.message}`);
     });
   }
 
