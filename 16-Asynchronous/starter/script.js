@@ -96,6 +96,7 @@ const createImage = function (imgPath) {
 // await countries.get3Countries('Romania', 'Bulgaria', 'Moldova');
 
 //CC#3
+//Part 1
 const loadNPause = async function () {
   try {
     await createImage(`img/imgs-1.jpg`);
@@ -110,4 +111,16 @@ const loadNPause = async function () {
   }
 };
 
-await loadNPause();
+//await loadNPause();
+
+//CC#3
+//Part 2
+const loadAll = async function (imgPaths) {
+  const imgsPromises = imgPaths.map(
+    async imgPath => await createImage(imgPath)
+  );
+  const imgs = await Promise.all(imgsPromises);
+  imgs.forEach(img => img.classList.add('parallel'));
+  console.log(imgs);
+};
+await loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
