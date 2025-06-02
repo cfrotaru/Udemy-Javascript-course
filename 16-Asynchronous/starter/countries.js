@@ -167,6 +167,24 @@ export class Countries {
     countriesContainer.style.opacity = 1;
   }
 
+  async get3Countries(c1, c2, c3) {
+    try {
+      const [data1] = await this.getJSON(this.#getCountryLinkByName(c1));
+      const [data2] = await this.getJSON(this.#getCountryLinkByName(c2));
+      const [data3] = await this.getJSON(this.#getCountryLinkByName(c3));
+      console.log(data1.capital, data2.capital, data3.capital);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  getJSON(url, errorMsg = 'Something went wrong') {
+    return fetch(url).then(response => {
+      if (!response.ok) throw new Error(`${errorMsg} (${response.status})`);
+      return response.json();
+    });
+  }
+
   showToast(message, duration = 3000) {
     const toast = document.getElementById('toast');
     toast.textContent = message;

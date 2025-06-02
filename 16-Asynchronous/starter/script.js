@@ -92,3 +92,5 @@ createImage(`img/img-1.jpg`)
     image.style.display = 'none';
   })
   .catch(err => console.log(err));
+
+await countries.get3Countries('Romania', 'Bulgaria', 'Moldova');
