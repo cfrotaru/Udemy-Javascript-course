@@ -79,18 +79,35 @@ const createImage = function (imgPath) {
   });
 };
 
-createImage(`img/img-1.jpg`)
-  .then(() => {
-    return wait(2);
-  })
-  .then(() => {
-    image.style.display = 'none';
-    return createImage(`img/img-2.jpg`);
-  })
-  .then(() => wait(2))
-  .then(() => {
-    image.style.display = 'none';
-  })
-  .catch(err => console.log(err));
+// createImage(`img/img-1.jpg`)
+//   .then(() => {
+//     return wait(2);
+//   })
+//   .then(() => {
+//     image.style.display = 'none';
+//     return createImage(`img/img-2.jpg`);
+//   })
+//   .then(() => wait(2))
+//   .then(() => {
+//     image.style.display = 'none';
+//   })
+//   .catch(err => console.log(err));
 
-await countries.get3Countries('Romania', 'Bulgaria', 'Moldova');
+// await countries.get3Countries('Romania', 'Bulgaria', 'Moldova');
+
+//CC#3
+const loadNPause = async function () {
+  try {
+    await createImage(`img/imgs-1.jpg`);
+    await wait(2);
+    image.style.display = 'none';
+    await createImage(`img/img-2.jpg`);
+    await wait(2);
+    image.style.display = 'none';
+  } catch (error) {
+    console.log(error);
+    Countries.showToast(error.message);
+  }
+};
+
+await loadNPause();

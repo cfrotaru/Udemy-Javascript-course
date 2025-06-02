@@ -35,7 +35,7 @@ export class Countries {
       })
       .catch(err => {
         console.error('Geolocation error:', err);
-        this.showToast(`Geolocation error: ${err.message}`);
+        Countries.showToast(`Geolocation error: ${err.message}`);
       });
   }
 
@@ -88,7 +88,7 @@ export class Countries {
       })
       .catch(error => {
         console.error('Error fetching country data:', error);
-        this.showToast(`Error fetching country data: ${error.message}`);
+        Countries.showToast(`Error fetching country data: ${error.message}`);
       });
   }
 
@@ -125,7 +125,7 @@ export class Countries {
       navigator.geolocation.getCurrentPosition(resolve, reject);
     }).catch(err => {
       console.error(`Couldn't retrieve location:`, err);
-      this.showToast(`Couldn't retrieve location: ${err.message}`);
+      Countries.showToast(`Couldn't retrieve location: ${err.message}`);
     });
   }
 
@@ -185,7 +185,7 @@ export class Countries {
     });
   }
 
-  showToast(message, duration = 3000) {
+  static showToast(message, duration = 3000) {
     const toast = document.getElementById('toast');
     toast.textContent = message;
     console.log(`toast happened`);
