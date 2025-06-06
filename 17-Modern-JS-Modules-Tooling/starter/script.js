@@ -45,7 +45,9 @@ add('pizza', 2);
 // console.log(ShoppingCart2);
 // console.log(ShoppingCart2.shippingCost);
 
-import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+import cloneDeep from 'lodash';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 const state = {
   cart: [
@@ -60,3 +62,7 @@ state.user.loggedIn = false;
 console.log(stateClone);
 
 console.log(stateDeepClone);
+
+if (module.hot) {
+  module.hot.accept();
+}
