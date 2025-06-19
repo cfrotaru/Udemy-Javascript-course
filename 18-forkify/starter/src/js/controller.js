@@ -1,5 +1,6 @@
 import icons from 'url:../img/icons.svg';
-
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 const recipeContainer = document.querySelector('.recipe');
 
 const timeout = function (s) {
@@ -13,6 +14,17 @@ const timeout = function (s) {
 // https://forkify-api.herokuapp.com/v2 b26ccd0d-ba14-48e7-921c-a7c9651762b6
 
 ///////////////////////////////////////
+const renderSpinner = function (parentEl) {
+  const markup = `
+  <div class="spinner">
+          <svg>
+            <use href="${icons}#icon-loader"></use>
+          </svg>
+        </div>`;
+  parentEl.innerHTML = '';
+  parentEl.insertAdjacentHTML('afterbegin', markup);
+  console.log(markup);
+};
 
 const getIngredientsForServings = function (
   recipe,
@@ -33,7 +45,7 @@ const getIngredientsForServings = function (
   return adjustedIngredients;
 };
 const renderIngredients = function (ingredients) {
-  console.log(`#renderIngredients`, ingredients);
+  const ingredientsList = document.querySelector('.recipe__ingredient-list');
   const markup = ingredients
     .map(ingredient => {
       return `<li class="recipe__ingredient">
@@ -56,7 +68,6 @@ const renderIngredients = function (ingredients) {
             </li>`;
     })
     .join('');
-  const ingredientsList = document.querySelector('.recipe__ingredient-list');
   ingredientsList.innerHTML = '';
   ingredientsList.insertAdjacentHTML('afterbegin', markup);
 };
@@ -162,6 +173,7 @@ const renderRecipe = function (recipe) {
 };
 
 const showRecipe = async function () {
+  renderSpinner(recipeContainer);
   try {
     // 1) loading recipe
     const res = await fetch(
