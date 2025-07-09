@@ -11,4 +11,9 @@ export default class SpinnerView {
     parentEl.innerHTML = '';
     parentEl.insertAdjacentHTML('afterbegin', markup);
   }
+
+  static stop() {
+    const spinner = document.querySelector('.spinner');
+    if (spinner) spinner.remove();
+  }
 }

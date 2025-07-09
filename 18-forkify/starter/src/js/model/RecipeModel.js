@@ -41,3 +41,7 @@ export const calculateIngredients = function (
   });
   return adjustedIngredients;
 };
+
+export const getRecipeIdFromHash = function () {
+  return window.location.hash.slice(1);
+};
