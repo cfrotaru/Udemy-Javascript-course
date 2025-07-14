@@ -1,9 +1,7 @@
 import icons from 'url:../../img/icons.svg';
 
-export default class RecipeView {
-  constructor() {
-    this.container = document.querySelector('.recipe');
-  }
+class RecipeView {
+  #Container = document.querySelector('.recipe');
 
   render(recipe) {
     const markup = `
@@ -76,8 +74,8 @@ export default class RecipeView {
         </a>
       </div>`;
 
-    this.container.innerHTML = '';
-    this.container.insertAdjacentHTML('afterbegin', markup);
+    this.#Container.innerHTML = '';
+    this.#Container.insertAdjacentHTML('afterbegin', markup);
   }
 
   generateIngredientsMarkup(ingredients) {
@@ -103,7 +101,7 @@ export default class RecipeView {
   }
 
   addHandlerUpdateServings(handler) {
-    this.container.addEventListener('click', function (e) {
+    this.#Container.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--tiny');
       if (!btn) return;
 
@@ -116,3 +114,5 @@ export default class RecipeView {
     });
   }
 }
+
+export default new RecipeView();
