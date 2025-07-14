@@ -1,10 +1,22 @@
 import icons from 'url:../../img/icons.svg';
+import fracty from 'fracty';
 
 class RecipeView {
-  #Container = document.querySelector('.recipe');
+  #container = document.querySelector('.recipe');
 
   render(recipe) {
-    const markup = `
+    const markup = this.#generateRecipeMarkup(recipe);
+    this.#clear();
+    this.#container.insertAdjacentHTML('afterbegin', markup);
+    window.fracty = fracty;
+  }
+
+  #clear() {
+    this.#container.innerHTML = '';
+  }
+
+  #generateRecipeMarkup(recipe) {
+    return `
       <figure class="recipe__fig">
         <img src="${recipe.image}" alt="${recipe.title}" class="recipe__img">
         <h1 class="recipe__title">
@@ -52,7 +64,7 @@ class RecipeView {
       <div class="recipe__ingredients">
         <h2 class="heading--2">Recipe ingredients</h2>
         <ul class="recipe__ingredient-list">
-          ${this.generateIngredientsMarkup(recipe.updatedIngredients)}
+          ${this.#generateIngredientsMarkup(recipe.updatedIngredients)}
         </ul>
       </div>
 
@@ -73,12 +85,10 @@ class RecipeView {
           </svg>
         </a>
       </div>`;
-
-    this.#Container.innerHTML = '';
-    this.#Container.insertAdjacentHTML('afterbegin', markup);
   }
 
-  generateIngredientsMarkup(ingredients) {
+  #generateIngredientsMarkup(ingredients) {
+    console.log(ingredients);
     return ingredients
       .map(
         ing => `
@@ -88,7 +98,7 @@ class RecipeView {
         </svg>
         ${
           ing.quantity
-            ? `<div class="recipe__quantity">${ing.quantity}</div>`
+            ? `<div class="recipe__quantity">${fracty(ing.quantity)}</div>`
             : ''
         }
         <div class="recipe__description">
@@ -101,7 +111,7 @@ class RecipeView {
   }
 
   addHandlerUpdateServings(handler) {
-    this.#Container.addEventListener('click', function (e) {
+    this.#container.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--tiny');
       if (!btn) return;
 
