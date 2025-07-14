@@ -1,47 +1,42 @@
-export const fetchRecipe = async function (id) {
-  try {
-    const res = await fetch(
-      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
-    );
-    const data = await res.json();
-    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+export const state = {
+  recipe: {},
+};
+export const loadRecipe = async function (id) {
+  const res = await fetch(
+    `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
+  );
+  const data = await res.json();
+  if (!res.ok) throw new Error(`${data.message} (${res.status})`);
 
-    const { recipe } = data.data;
+  const { recipe } = data.data;
+  state.recipe = {
+    id: recipe.id,
+    title: recipe.title,
+    publisher: recipe.publisher,
+    sourceUrl: recipe.source_url,
+    image: recipe.image_url,
+    servings: recipe.servings,
+    updatedServings: recipe.servings,
+    cookingTime: recipe.cooking_time,
+    ingredients: recipe.ingredients,
+    updatedIngredients: recipe.ingredients,
+  };
+};
+
+export const updateServings = function (increase = true) {
+  const { recipe } = state;
+
+  const newServings = recipe.updatedServings + (increase ? 1 : -1);
+  if (newServings < 1) return;
+
+  const multiplier = +(newServings / recipe.servings).toFixed(2);
+
+  recipe.updatedIngredients = recipe.ingredients.map(ing => {
     return {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.source_url,
-      image: recipe.image_url,
-      servings: recipe.servings,
-      updatedServings: recipe.servings,
-      cookingTime: recipe.cooking_time,
-      ingredients: recipe.ingredients,
+      ...ing,
+      quantity: ing.quantity ? +(ing.quantity * multiplier).toFixed(2) : null,
     };
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const calculateIngredients = function (
-  recipe,
-  servings = recipe.updatedServings
-) {
-  //console.log(`#getIngredientsForServings:`, recipe, servings);
-  const multiplier =
-    servings === recipe.servings ? 1 : +(servings / recipe.servings).toFixed(2);
-  console.log('multiplier:', multiplier);
-
-  const adjustedIngredients = recipe.ingredients.map(ingredient => {
-    const newIngredient = { ...ingredient };
-    newIngredient.quantity = newIngredient.quantity
-      ? newIngredient.quantity * multiplier
-      : null;
-    return newIngredient;
   });
-  return adjustedIngredients;
-};
 
-export const getRecipeIdFromHash = function () {
-  return window.location.hash.slice(1);
+  recipe.updatedServings = newServings;
 };

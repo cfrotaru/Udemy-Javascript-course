@@ -1,5 +1,4 @@
 import icons from 'url:../../img/icons.svg';
-import { calculateIngredients } from '../model/RecipeModel.js';
 
 export default class RecipeView {
   constructor() {
@@ -55,7 +54,7 @@ export default class RecipeView {
       <div class="recipe__ingredients">
         <h2 class="heading--2">Recipe ingredients</h2>
         <ul class="recipe__ingredient-list">
-          ${this.generateIngredientsMarkup(recipe.ingredients)}
+          ${this.generateIngredientsMarkup(recipe.updatedIngredients)}
         </ul>
       </div>
 
@@ -79,25 +78,6 @@ export default class RecipeView {
 
     this.container.innerHTML = '';
     this.container.insertAdjacentHTML('afterbegin', markup);
-
-    document
-      .querySelector('.btn--decrease-servings')
-      .addEventListener('click', this.updateServings.bind(this, recipe, false));
-    document
-      .querySelector('.btn--increase-servings')
-      .addEventListener('click', this.updateServings.bind(this, recipe, true));
-  }
-
-  updateServings(recipe, increase = true) {
-    if (!increase && recipe.updatedServings < 2) {
-      alert('Cannot decrease servings');
-      return;
-    }
-    recipe.updatedServings += increase ? 1 : -1;
-    this.renderIngredients(calculateIngredients(recipe));
-    document.querySelector(
-      '.recipe__info-data--people'
-    ).innerHTML = `${recipe.updatedServings}`;
   }
 
   generateIngredientsMarkup(ingredients) {
@@ -122,12 +102,17 @@ export default class RecipeView {
       .join('');
   }
 
-  renderIngredients(ingredients) {
-    const ingredientsList = document.querySelector('.recipe__ingredient-list');
-    ingredientsList.innerHTML = '';
-    ingredientsList.insertAdjacentHTML(
-      'afterbegin',
-      this.generateIngredientsMarkup(ingredients)
-    );
+  addHandlerUpdateServings(handler) {
+    this.container.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--tiny');
+      if (!btn) return;
+
+      const isIncrease = btn.classList.contains('btn--increase-servings');
+      const isDecrease = btn.classList.contains('btn--decrease-servings');
+
+      if (!isIncrease && !isDecrease) return;
+
+      handler(isIncrease);
+    });
   }
 }
