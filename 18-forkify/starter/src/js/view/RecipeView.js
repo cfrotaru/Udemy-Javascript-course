@@ -8,7 +8,6 @@ class RecipeView {
     const markup = this.#generateRecipeMarkup(recipe);
     this.#clear();
     this.#container.insertAdjacentHTML('afterbegin', markup);
-    window.fracty = fracty;
   }
 
   #clear() {
@@ -122,6 +121,26 @@ class RecipeView {
 
       handler(isIncrease);
     });
+  }
+  addHandlerRender(handler) {
+    ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
+  }
+
+  renderError(message) {
+    const markup = `
+          <div class="error">
+            <div>
+              <svg>
+                <use href="${icons}#icon-alert-triangle"></use>
+              </svg>
+            </div>
+            <p>${message}!</p>
+          </div>`;
+    console.log(markup);
+    console.log(this.#container);
+    console.log(`Message: ${message}`);
+    this.#clear();
+    this.#container.insertAdjacentHTML('afterbegin', markup);
   }
 }
 

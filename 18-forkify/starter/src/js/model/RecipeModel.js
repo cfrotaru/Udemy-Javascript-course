@@ -5,21 +5,25 @@ export const state = {
   recipe: {},
 };
 export const loadRecipe = async function (id) {
-  const data = await getJSON(`${API_URL}/${id}`);
+  try {
+    const data = await getJSON(`${API_URL}/${id}`);
 
-  const { recipe } = data.data;
-  state.recipe = {
-    id: recipe.id,
-    title: recipe.title,
-    publisher: recipe.publisher,
-    sourceUrl: recipe.source_url,
-    image: recipe.image_url,
-    servings: recipe.servings,
-    updatedServings: recipe.servings,
-    cookingTime: recipe.cooking_time,
-    ingredients: recipe.ingredients,
-    updatedIngredients: recipe.ingredients,
-  };
+    const { recipe } = data.data;
+    state.recipe = {
+      id: recipe.id,
+      title: recipe.title,
+      publisher: recipe.publisher,
+      sourceUrl: recipe.source_url,
+      image: recipe.image_url,
+      servings: recipe.servings,
+      updatedServings: recipe.servings,
+      cookingTime: recipe.cooking_time,
+      ingredients: recipe.ingredients,
+      updatedIngredients: recipe.ingredients,
+    };
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const updateServings = function (increase = true) {

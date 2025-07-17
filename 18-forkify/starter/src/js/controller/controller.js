@@ -19,21 +19,18 @@ const showRecipe = async function (recipeId) {
       recipeView.render(model.state.recipe);
     });
   } catch (err) {
-    alert(err);
-    console.error(err);
+    recipeView.renderError(err);
   } finally {
     SpinnerView.stop();
   }
 };
 
-const controlRecipe = async function () {
-  ['hashchange', 'load'].forEach(ev =>
-    window.addEventListener(ev, () => {
-      const id = getRecipeIdFromHash();
-      if (id) showRecipe(id);
-    })
-  );
+const init = async function () {
+  recipeView.addHandlerRender(() => {
+    const id = getRecipeIdFromHash();
+    if (id) showRecipe(id);
+  });
   //const recipeId = '5ed6604591c37cdc054bc886';
 };
 
-controlRecipe();
+init();
