@@ -1,7 +1,9 @@
 import icons from 'url:../../img/icons.svg';
 
-export default class SpinnerView {
-  static render(parentEl) {
+class SpinnerView {
+  #recipeContainer = document.querySelector('.recipe');
+  #recipesNavigationListContainer = document.querySelector('.nav');
+  #render(parentEl) {
     const markup = `
       <div class="spinner">
         <svg>
@@ -12,8 +14,18 @@ export default class SpinnerView {
     parentEl.insertAdjacentHTML('afterbegin', markup);
   }
 
-  static stop() {
+  renderRecipeContainerSpinner() {
+    this.#render(this.#recipeContainer);
+  }
+
+  renderRecipesNavigationListSpinner() {
+    this.#render(this.#recipesNavigationListContainer);
+  }
+
+  stop() {
     const spinner = document.querySelector('.spinner');
     if (spinner) spinner.remove();
   }
 }
+
+export default new SpinnerView();
