@@ -45,20 +45,24 @@ const controlSearchResults = async function () {
   }
 };
 
+const controlPagination = function (increase) {
+  model.updateResultsPage(increase);
+  paginationView.updatePaginationButtons(model.getPaginationDetails());
+  resultsView.render(model.getResultsPage());
+};
+
+const controlServings = function (increase) {
+  model.updateServings(increase);
+  recipeView.render(model.state.recipe);
+};
+
 const addHandlers = function () {
   recipeView.addHandlerRender(controlRecipe);
-  recipeView.addHandlerUpdateServings(increase => {
-    model.updateServings(increase);
-    recipeView.render(model.state.recipe);
-  });
+  recipeView.addHandlerUpdateServings(controlServings);
 
   searchView.addHandlerSearch(controlSearchResults);
 
-  paginationView.addHandlerPagination(increase => {
-    model.updateResultsPage(increase);
-    paginationView.updatePaginationButtons(model.getPaginationDetails());
-    resultsView.render(model.getResultsPage());
-  });
+  paginationView.addHandlerPagination(controlPagination);
 };
 
 const init = function () {
