@@ -1,9 +1,10 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import * as model from '../model/recipeModel.js';
-import spinnerView from '../view/spinnerView.js';
 import recipeView from '../view/recipeView.js';
 import searchView from '../view/searchView.js';
+import resultsView from '../view/resultsView.js';
+import paginationView from '../view/paginationView.js';
 
 const getRecipeIdFromHash = function () {
   return window.location.hash.slice(1);
@@ -11,7 +12,7 @@ const getRecipeIdFromHash = function () {
 const showRecipe = async function (recipeId) {
   console.log(recipeId);
   try {
-    spinnerView.renderRecipeContainerSpinner();
+    recipeView.renderSpinner();
     await model.loadRecipe(recipeId);
     recipeView.render(model.state.recipe);
     recipeView.addHandlerUpdateServings(increase => {
@@ -21,7 +22,7 @@ const showRecipe = async function (recipeId) {
   } catch (err) {
     recipeView.renderError();
   } finally {
-    spinnerView.stop();
+    recipeView.stopSpinner();
   }
 };
 
@@ -33,20 +34,31 @@ const controlRecipe = async function () {
 const controlSearchResults = async function () {
   try {
     const query = searchView.getQuery();
-    console.log(query);
     if (!query) return;
-    spinnerView.renderRecipesNavigationListSpinner();
+
+    resultsView.renderSpinner();
     await model.loadSearchResults(query);
+
+    resultsView.render(model.getResultsPage());
+
+    paginationView.updatePaginationButtons(model.getPaginationDetails());
+
+    paginationView.addHandlerPagination(increase => {
+      model.updateResultsPage(increase);
+      paginationView.updatePaginationButtons(model.getPaginationDetails());
+      resultsView.render(model.getResultsPage());
+    });
   } catch (err) {
-    console.log(err);
+    recipeView.renderError(err);
   } finally {
-    spinnerView.stop();
+    resultsView.stopSpinner();
   }
 };
 
-const init = async function () {
+const init = function () {
   recipeView.addHandlerRender(controlRecipe);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.markupRender();
   //const recipeId = '5ed6604591c37cdc054bc886';
 };
 init();

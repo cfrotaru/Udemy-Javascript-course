@@ -46,6 +46,9 @@ body {
   background-repeat: no-repeat;
   min-height: calc(100vh - 2 * 4vw);
 }
+.hidden {
+  display: none !important;
+}
 
 .container {
   max-width: 120rem;

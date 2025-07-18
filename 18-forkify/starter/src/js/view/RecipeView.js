@@ -1,22 +1,15 @@
+import View from './view';
 import icons from 'url:../../img/icons.svg';
 import fracty from 'fracty';
 
-class RecipeView {
-  #container = document.querySelector('.recipe');
-  #errorMessage = `We could not find that recipe, please try another one!`;
-  #successMessage = ``;
+class RecipeView extends View {
+  _data;
+  _container = document.querySelector('.recipe');
+  _errorMessage = `We could not find that recipe, please try another one!`;
+  _successMessage = ``;
 
-  render(recipe) {
-    const markup = this.#generateRecipeMarkup(recipe);
-    this.#clear();
-    this.#container.insertAdjacentHTML('afterbegin', markup);
-  }
-
-  #clear() {
-    this.#container.innerHTML = '';
-  }
-
-  #generateRecipeMarkup(recipe) {
+  _generateMarkup() {
+    const recipe = this._data;
     return `
       <figure class="recipe__fig">
         <img src="${recipe.image}" alt="${recipe.title}" class="recipe__img">
@@ -65,7 +58,7 @@ class RecipeView {
       <div class="recipe__ingredients">
         <h2 class="heading--2">Recipe ingredients</h2>
         <ul class="recipe__ingredient-list">
-          ${this.#generateIngredientsMarkup(recipe.updatedIngredients)}
+          ${this._generateIngredientsMarkup(recipe.updatedIngredients)}
         </ul>
       </div>
 
@@ -88,7 +81,7 @@ class RecipeView {
       </div>`;
   }
 
-  #generateIngredientsMarkup(ingredients) {
+  _generateIngredientsMarkup(ingredients) {
     console.log(ingredients);
     return ingredients
       .map(
@@ -112,7 +105,7 @@ class RecipeView {
   }
 
   addHandlerUpdateServings(handler) {
-    this.#container.addEventListener('click', function (e) {
+    this._container.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--tiny');
       if (!btn) return;
 
@@ -126,34 +119,6 @@ class RecipeView {
   }
   addHandlerRender(handler) {
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
-  }
-
-  renderError(message = this.#errorMessage) {
-    const markup = `
-          <div class="error">
-            <div>
-              <svg>
-                <use href="${icons}#icon-alert-triangle"></use>
-              </svg>
-            </div>
-            <p>${message}!</p>
-          </div>`;
-    this.#clear();
-    this.#container.insertAdjacentHTML('afterbegin', markup);
-  }
-
-  renderMessage(message = this.#successMessage) {
-    const markup = `
-          <div class="message">
-            <div>
-              <svg>
-                <use href="${icons}#icon-smile"></use>
-              </svg>
-            </div>
-            <p>${message}!</p>
-          </div>`;
-    this.#clear();
-    this.#container.insertAdjacentHTML('afterbegin', markup);
   }
 }
 
