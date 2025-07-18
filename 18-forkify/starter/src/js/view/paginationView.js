@@ -42,7 +42,7 @@ class PaginationView extends View {
   }
 
   addHandlerPagination(handler) {
-    document.querySelector('.search-results').addEventListener('click', e => {
+    this._container.addEventListener('click', e => {
       const btn = e.target.closest('.btn--inline');
       if (!btn) return;
 
