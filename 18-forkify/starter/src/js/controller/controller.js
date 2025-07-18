@@ -38,12 +38,6 @@ const controlSearchResults = async function () {
     resultsView.render(model.getResultsPage());
 
     paginationView.updatePaginationButtons(model.getPaginationDetails());
-
-    paginationView.addHandlerPagination(increase => {
-      model.updateResultsPage(increase);
-      paginationView.updatePaginationButtons(model.getPaginationDetails());
-      resultsView.render(model.getResultsPage());
-    });
   } catch (err) {
     recipeView.renderError(err);
   } finally {
@@ -51,14 +45,25 @@ const controlSearchResults = async function () {
   }
 };
 
-const init = function () {
+const addHandlers = function () {
   recipeView.addHandlerRender(controlRecipe);
-  searchView.addHandlerSearch(controlSearchResults);
   recipeView.addHandlerUpdateServings(increase => {
     model.updateServings(increase);
     recipeView.render(model.state.recipe);
   });
+
+  searchView.addHandlerSearch(controlSearchResults);
+
+  paginationView.addHandlerPagination(increase => {
+    model.updateResultsPage(increase);
+    paginationView.updatePaginationButtons(model.getPaginationDetails());
+    resultsView.render(model.getResultsPage());
+  });
+};
+
+const init = function () {
   paginationView.markupRender();
+  addHandlers();
   //const recipeId = '5ed6604591c37cdc054bc886';
 };
 init();
