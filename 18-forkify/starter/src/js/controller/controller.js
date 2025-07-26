@@ -5,6 +5,7 @@ import recipeView from '../view/recipeView.js';
 import searchView from '../view/searchView.js';
 import resultsView from '../view/resultsView.js';
 import paginationView from '../view/paginationView.js';
+import bookmarksView from '../view/bookmarksView.js';
 
 const getRecipeIdFromHash = function () {
   return window.location.hash.slice(1);
@@ -15,6 +16,7 @@ const showRecipe = async function (recipeId) {
     recipeView.renderSpinner();
 
     resultsView.update(model.getResultsPage());
+    bookmarksView.update(model.getBookmarks());
 
     await model.loadRecipe(recipeId);
 
@@ -61,8 +63,9 @@ const controlServings = function (increase) {
 };
 
 const controlBookmarks = function () {
-  model.toggleRecipeBookmark(model.getRecipeId());
+  model.toggleRecipeBookmark(model.getRecipe());
   recipeView.update(model.getRecipe());
+  bookmarksView.render(model.getBookmarks());
 };
 
 const addHandlers = function () {
@@ -77,6 +80,8 @@ const addHandlers = function () {
 
 const init = function () {
   model.getLocalStorageBookmarks();
+  bookmarksView.render(model.getBookmarks());
+
   paginationView.markupRender();
   addHandlers();
   //const recipeId = '5ed6604591c37cdc054bc886';

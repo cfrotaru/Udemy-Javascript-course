@@ -30,7 +30,7 @@ export const loadRecipe = async function (id) {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
       updatedIngredients: recipe.ingredients,
-      bookmarked: isRecipeBookmarked(recipe.id),
+      bookmarked: isRecipeBookmarked(recipe),
     };
   } catch (err) {
     throw err;
@@ -130,24 +130,30 @@ export const updateLocalStorageBookmarks = function () {
 export const getLocalStorageBookmarks = function () {
   state.bookmarks = getFromLocalStorage(BOOK_MARKS_KEY);
 };
-export const addRecipeBookmark = function (recipeId) {
-  state.bookmarks.push(recipeId);
-  state.recipe.bookmarked = isRecipeBookmarked(recipeId);
+export const addRecipeBookmark = function (recipe) {
+  state.bookmarks.push(recipe);
+  state.recipe.bookmarked = true;
   updateLocalStorageBookmarks();
 };
 
 export const removeRecipeBookmark = function (recipeId) {
-  state.bookmarks = state.bookmarks.filter(bookmark => bookmark !== recipeId);
-  state.recipe.bookmarked = isRecipeBookmarked(recipeId);
+  state.bookmarks = state.bookmarks.filter(
+    bookmark => bookmark.id !== recipeId
+  );
+  state.recipe.bookmarked = false;
   updateLocalStorageBookmarks();
 };
 
-export const toggleRecipeBookmark = function (recipeId) {
-  isRecipeBookmarked(recipeId)
-    ? removeRecipeBookmark(recipeId)
-    : addRecipeBookmark(recipeId);
+export const toggleRecipeBookmark = function (recipe) {
+  isRecipeBookmarked(recipe)
+    ? removeRecipeBookmark(recipe.id)
+    : addRecipeBookmark(recipe);
 };
 
-export const isRecipeBookmarked = function (recipeId) {
-  return state.bookmarks.includes(recipeId);
+export const isRecipeBookmarked = function (recipe) {
+  return state.bookmarks.some(bookmark => bookmark.id === recipe.id);
+};
+
+export const getBookmarks = function () {
+  return state.bookmarks;
 };
