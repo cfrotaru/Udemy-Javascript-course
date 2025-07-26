@@ -11,7 +11,6 @@ export default class View {
   }
 
   update(data, ignoreError = false) {
-    console.log(`#view-update:`);
     if (!data || (Array.isArray(data) && data.length === 0))
       return !ignoreError ? this.renderError() : null;
     this._data = data;

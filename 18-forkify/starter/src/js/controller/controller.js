@@ -52,7 +52,7 @@ const controlSearchResults = async function () {
 const controlPagination = function (increase) {
   model.updateResultsPage(increase);
   paginationView.updatePaginationButtons(model.getPaginationDetails());
-  resultsView.update(model.getResultsPage());
+  resultsView.render(model.getResultsPage());
 };
 
 const controlServings = function (increase) {
