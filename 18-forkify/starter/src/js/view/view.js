@@ -10,6 +10,34 @@ export default class View {
     this.markupRender();
   }
 
+  update(data, ignoreError = false) {
+    console.log(`#view-update:`);
+    if (!data || (Array.isArray(data) && data.length === 0))
+      return !ignoreError ? this.renderError() : null;
+    this._data = data;
+    const newMarkup = this._generateMarkup(data);
+
+    const newDom = document.createRange().createContextualFragment(newMarkup);
+    const newElements = Array.from(newDom.querySelectorAll('*'));
+    const currentElements = Array.from(this._container.querySelectorAll('*'));
+
+    newElements.forEach((newElement, i) => {
+      const currentElement = currentElements[i];
+      if (
+        !newElement.isEqualNode(currentElement) &&
+        newElement.firstChild?.nodeValue.trim() !== ''
+      ) {
+        currentElement.textContent = newElement.textContent;
+      }
+
+      if (!newElement.isEqualNode(currentElement)) {
+        Array.from(newElement.attributes).forEach(attribute =>
+          currentElement.setAttribute(attribute.name, attribute.value)
+        );
+      }
+    });
+  }
+
   markupRender() {
     const markup = this._generateMarkup();
     this._clear();
