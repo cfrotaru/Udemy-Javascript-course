@@ -10,9 +10,8 @@ export default class View {
     this.markupRender();
   }
 
-  update(data, ignoreError = false) {
-    if (!data || (Array.isArray(data) && data.length === 0))
-      return !ignoreError ? this.renderError() : null;
+  update(data) {
+    if (!data || (Array.isArray(data) && data.length === 0)) return;
     this._data = data;
     const newMarkup = this._generateMarkup(data);
 
