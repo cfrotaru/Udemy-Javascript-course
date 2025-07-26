@@ -21,9 +21,11 @@ export default class View {
 
     newElements.forEach((newElement, i) => {
       const currentElement = currentElements[i];
+
       if (
         !newElement.isEqualNode(currentElement) &&
-        newElement.firstChild?.nodeValue.trim() !== ''
+        newElement.firstChild?.nodeType === Node.TEXT_NODE &&
+        newElement.firstChild.nodeValue.trim() !== ''
       ) {
         currentElement.textContent = newElement.textContent;
       }

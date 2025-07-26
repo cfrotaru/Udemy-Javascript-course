@@ -1,5 +1,9 @@
-import { API_URL, RES_PER_PAGE } from '../config/config.js';
-import { getJSON } from '../helpers/helpers.js';
+import { API_URL, RES_PER_PAGE, BOOK_MARKS_KEY } from '../config/config.js';
+import {
+  getJSON,
+  saveToLocalStorage,
+  getFromLocalStorage,
+} from '../helpers/helpers.js';
 
 export const state = {
   recipe: {},
@@ -8,6 +12,7 @@ export const state = {
     results: [],
     pagination: { currentPage: 1, lastPage: 1, pageResults: [] },
   },
+  bookmarks: [],
 };
 export const loadRecipe = async function (id) {
   try {
@@ -25,6 +30,7 @@ export const loadRecipe = async function (id) {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
       updatedIngredients: recipe.ingredients,
+      bookmarked: isRecipeBookmarked(recipe.id),
     };
   } catch (err) {
     throw err;
@@ -91,6 +97,14 @@ export const updateResultsPage = function (isIncrease) {
   );
 };
 
+export const getRecipeId = function () {
+  return state.recipe.id;
+};
+
+export const getRecipe = function () {
+  return state.recipe;
+};
+
 export const updatePaginationDetails = function (currentPage, lastPage) {
   state.search.pagination = { currentPage, lastPage };
 };
@@ -108,4 +122,32 @@ export const getSearchData = function () {
 
 export const getSearchResultsData = function () {
   return state.search.results;
+};
+
+export const updateLocalStorageBookmarks = function () {
+  saveToLocalStorage(BOOK_MARKS_KEY, state.bookmarks);
+};
+export const getLocalStorageBookmarks = function () {
+  state.bookmarks = getFromLocalStorage(BOOK_MARKS_KEY);
+};
+export const addRecipeBookmark = function (recipeId) {
+  state.bookmarks.push(recipeId);
+  state.recipe.bookmarked = isRecipeBookmarked(recipeId);
+  updateLocalStorageBookmarks();
+};
+
+export const removeRecipeBookmark = function (recipeId) {
+  state.bookmarks = state.bookmarks.filter(bookmark => bookmark !== recipeId);
+  state.recipe.bookmarked = isRecipeBookmarked(recipeId);
+  updateLocalStorageBookmarks();
+};
+
+export const toggleRecipeBookmark = function (recipeId) {
+  isRecipeBookmarked(recipeId)
+    ? removeRecipeBookmark(recipeId)
+    : addRecipeBookmark(recipeId);
+};
+
+export const isRecipeBookmarked = function (recipeId) {
+  return state.bookmarks.includes(recipeId);
 };

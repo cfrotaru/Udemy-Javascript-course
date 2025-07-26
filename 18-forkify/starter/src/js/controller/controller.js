@@ -18,7 +18,7 @@ const showRecipe = async function (recipeId) {
 
     await model.loadRecipe(recipeId);
 
-    recipeView.render(model.state.recipe);
+    recipeView.render(model.getRecipe());
   } catch (err) {
     recipeView.renderError();
   } finally {
@@ -57,12 +57,18 @@ const controlPagination = function (increase) {
 
 const controlServings = function (increase) {
   model.updateServings(increase);
-  recipeView.update(model.state.recipe);
+  recipeView.update(model.getRecipe());
+};
+
+const controlBookmarks = function () {
+  model.toggleRecipeBookmark(model.getRecipeId());
+  recipeView.update(model.getRecipe());
 };
 
 const addHandlers = function () {
   recipeView.addHandlerRender(controlRecipe);
   recipeView.addHandlerUpdateServings(controlServings);
+  recipeView.addHandlerUpdateBookmark(controlBookmarks);
 
   searchView.addHandlerSearch(controlSearchResults);
 
@@ -70,6 +76,7 @@ const addHandlers = function () {
 };
 
 const init = function () {
+  model.getLocalStorageBookmarks();
   paginationView.markupRender();
   addHandlers();
   //const recipeId = '5ed6604591c37cdc054bc886';

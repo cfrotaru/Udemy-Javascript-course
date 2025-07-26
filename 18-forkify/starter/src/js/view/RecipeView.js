@@ -50,8 +50,10 @@ class RecipeView extends View {
         <div class="recipe__user-generated">
           <svg><use href="${icons}#icon-user"></use></svg>
         </div>
-        <button class="btn--round">
-          <svg><use href="${icons}#icon-bookmark-fill"></use></svg>
+        <button class="btn--round btn--bookmark">
+          <svg><use href="${this.getBookmarkIcon(
+            recipe.bookmarked
+          )}"></use></svg>
         </button>
       </div>
 
@@ -82,7 +84,6 @@ class RecipeView extends View {
   }
 
   _generateIngredientsMarkup(ingredients) {
-    console.log(ingredients);
     return ingredients
       .map(
         ing => `
@@ -117,6 +118,21 @@ class RecipeView extends View {
       handler(isIncrease);
     });
   }
+
+  addHandlerUpdateBookmark(handler) {
+    this._container.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--bookmark');
+      if (!btn) return;
+      handler();
+    });
+  }
+
+  getBookmarkIcon(bookmarked) {
+    return bookmarked
+      ? `${icons}#icon-bookmark-fill`
+      : `${icons}#icon-bookmark`;
+  }
+
   addHandlerRender(handler) {
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
   }
