@@ -144,7 +144,7 @@ export const updateLocalStorageBookmarks = function () {
   saveToLocalStorage(BOOK_MARKS_KEY, state.bookmarks);
 };
 export const getLocalStorageBookmarks = function () {
-  state.bookmarks = getFromLocalStorage(BOOK_MARKS_KEY);
+  state.bookmarks = getFromLocalStorage(BOOK_MARKS_KEY) ?? [];
 };
 export const addRecipeBookmark = function (recipe) {
   state.bookmarks.push(recipe);
@@ -174,37 +174,32 @@ export const getBookmarks = function () {
   return state.bookmarks;
 };
 
-export const uploadRecipe = async function (newRecipe) {
+const formatIngredients = function (formData) {
+  const quantities = formData.getAll('quantity[]');
+  const units = formData.getAll('unit[]');
+  const descriptions = formData.getAll('description[]');
+  const ingredients = quantities.map((quantity, index) => ({
+    quantity: +quantity || null,
+    unit: units[index],
+    description: descriptions[index],
+  }));
+  return ingredients;
+};
+
+export const uploadRecipe = async function (formData) {
   try {
-    const recipeEntries = Object.entries(newRecipe);
-    const ingredients = recipeEntries
-      .filter(
-        entry =>
-          entry[0].toLowerCase().includes('ingredient') &&
-          entry[1].trim() !== ''
-      )
-      .map(ingredient => {
-        const ingredientInfo = ingredient[1].trim().split(',');
+    const recipeDataArray = [...formData];
+    const recipeData = Object.fromEntries(recipeDataArray);
 
-        if (ingredientInfo.length !== 3)
-          throw new Error(
-            'Wrong ingredient format! Please use the correct format :)'
-          );
-
-        return {
-          quantity: +ingredientInfo[0] || null,
-          unit: ingredientInfo[1],
-          description: ingredientInfo[2],
-        };
-      });
+    const ingredients = formatIngredients(formData);
 
     const recipe = {
-      title: newRecipe.title,
-      publisher: newRecipe.publisher,
-      source_url: newRecipe.sourceUrl,
-      image_url: newRecipe.image,
-      servings: +newRecipe.servings,
-      cooking_time: +newRecipe.cookingTime,
+      title: recipeData.title,
+      publisher: recipeData.publisher,
+      source_url: recipeData.sourceUrl,
+      image_url: recipeData.image,
+      servings: +recipeData.servings,
+      cooking_time: +recipeData.cookingTime,
       ingredients,
     };
     const data = await sendJSON(`${API_URL}?key=${API_KEY}`, recipe);

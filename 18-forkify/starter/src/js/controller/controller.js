@@ -69,11 +69,11 @@ const controlBookmarks = function () {
   bookmarksView.render(model.getBookmarks());
 };
 
-const controlAddRecipe = async function (newRecipe) {
+const controlAddRecipe = async function (formData) {
   try {
     addRecipeView.renderSpinner();
 
-    await model.uploadRecipe(newRecipe);
+    await model.uploadRecipe(formData);
 
     recipeView.render(model.getRecipe());
     bookmarksView.render(model.getBookmarks());
