@@ -1,9 +1,47 @@
-# 🐛 UPDATED and FIXED Code for my Complete JavaScript Course
+# JavaScript Learning Repository
 
-The _master_ branch in this repo contains the code **exactly** as shown in the course videos. However, some parts of the code contain small bugs or need updates. That's what _this_ branch is for.
+This repository contains my code, practice projects, and challenges from the Udemy course:
 
-**This branch will be kept up-to-date over time with latest package updates and important bugfixes 🐛**
+**[The Complete JavaScript Course 2024: From Zero to Expert!](https://www.udemy.com/course/the-complete-javascript-course/)**  
+by **Jonas Schmedtmann**
 
-So if you have any problem with the code in one of the course sections, check out the final code in this branch. Note that only folders with the 🐛 icon in the commit message have seen an update.
+---
 
-Happy coding! ✌️
+## 📌 About
+I’m using this repo to track my progress while learning modern JavaScript.  
+It includes:
+- ✅ Code-along projects from the course  
+- ✅ Challenge solutions  
+- ✅ Personal experiments  
+
+---
+
+## 📂 Projects & Exercises
+Some of the projects/exercises included:
+- Guess My Number 🎲  
+- Modal Window 🪟  
+- Pig Game 🐷  
+- Bankist App 🏦  
+- Bankist Website 🌐  
+- Mapty ⛹️‍♂️  
+
+*(plus smaller exercises and coding challenges)*
+
+---
+
+## ⚠️ Disclaimer
+This is **not** an official repository for the course.  
+All course content and teaching material belong to **Jonas Schmedtmann**.  
+This repo is for **personal learning and practice only**.  
+
+If you’re interested in the course, I highly recommend checking it out here:  
+👉 [The Complete JavaScript Course 2024](https://www.udemy.com/course/the-complete-javascript-course/)
+
+---
+
+## 🚀 Tech Stack
+- JavaScript (ES6+)  
+- HTML5 / CSS3  
+- DOM Manipulation  
+- Modern ES Modules  
+- OOP & Functional Programming Concepts  
