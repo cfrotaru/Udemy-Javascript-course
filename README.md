@@ -23,7 +23,8 @@ Some of the projects/exercises included:
 - Pig Game 🐷  
 - Bankist App 🏦  
 - Bankist Website 🌐  
-- Mapty ⛹️‍♂️  
+- Mapty ⛹️‍♂️
+- Forkify 🍴
 
 *(plus smaller exercises and coding challenges)*
 
