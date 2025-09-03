@@ -1,4 +1,5 @@
 import icons from 'url:../../img/icons.svg';
+import { TOOLTIP_CLOSE_SEC } from '../config/config';
 export default class View {
   _data;
   _container;
@@ -89,5 +90,20 @@ export default class View {
           </div>`;
     this._clear();
     this._container.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  showTooltip(element, message, secToClose = TOOLTIP_CLOSE_SEC) {
+    const tooltip = document.getElementById('tooltip');
+    const rect = element.getBoundingClientRect(); // button position in viewport
+
+    tooltip.textContent = message;
+    tooltip.style.top = rect.bottom + 8 + 'px'; // 8px below the button
+    tooltip.style.left = rect.left + rect.width / 2 + 'px';
+    tooltip.style.transform = 'translateX(-50%)'; // center align
+    tooltip.classList.add('show');
+
+    setTimeout(() => {
+      tooltip.classList.remove('show');
+    }, secToClose * 1000);
   }
 }

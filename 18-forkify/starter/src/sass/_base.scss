@@ -72,3 +72,22 @@ body {
     border-radius: 0;
   }
 }
+
+.tooltip {
+  position: fixed; /* attach to viewport instead of container */
+  background: #fff;
+  color: #e3342f;
+  border: 1px solid #e3342f;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 1.4rem;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 9999; /* ensure on top of everything */
+}
+
+.tooltip.show {
+  opacity: 1;
+}

@@ -129,6 +129,17 @@ class AddRecipeView extends View {
     this._container.addEventListener('click', e => {
       const btn = e.target.closest('.btn--remove-ingredient');
       if (!btn) return;
+
+      // Prevent removing last ingredient and display tooltip
+      if (
+        btn
+          .closest('.ingredients-container')
+          .querySelectorAll('.ingredient-data').length === 1
+      ) {
+        this.showTooltip(btn, 'Cannot remove the last ingredient');
+        return;
+      }
+
       // Remove ingredient
       btn.closest('.ingredient-data').remove();
       // Renumber remaining ingredients
