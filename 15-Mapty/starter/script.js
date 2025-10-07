@@ -16,6 +16,7 @@ const cyclingType = 'cycling';
 class App {
   #map;
   #markers = [];
+  #tmpMarker;
   workoutsData = [];
   _currentCoords;
   constructor() {
@@ -96,6 +97,7 @@ class App {
   }
 
   _showForm(mapEvent) {
+    this._addTmpMarker(mapEvent);
     form.reset();
     inputDistance.focus();
     this._currentCoords = [mapEvent.latlng.lat, mapEvent.latlng.lng];
@@ -108,7 +110,20 @@ class App {
     inputElevation.parentElement.classList.toggle('form__row--hidden');
   }
 
+  _addTmpMarker(mapEvent) {
+    this._removeTmpMarker();
+    this.#tmpMarker = L.marker([mapEvent.latlng.lat, mapEvent.latlng.lng]);
+    this.#tmpMarker.addTo(this.#map);
+  }
+
+  _removeTmpMarker() {
+    if (this.#tmpMarker) {
+      this.#tmpMarker.remove();
+      this.#tmpMarker = null;
+    }
+  }
   _addWorkoutMarkerToMap(marker, workoutInfo) {
+    this._removeTmpMarker();
     marker
       .addTo(this.#map)
       .bindPopup(
