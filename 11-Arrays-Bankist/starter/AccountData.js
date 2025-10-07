@@ -92,7 +92,12 @@ export default class AccountData {
       }
       const sender = accounts.get(senderId);
       const receiver = accounts.get(receiverId);
-
+	  
+	  if (!receiver) {
+        alert(`No account was found for the user id ${receiverId}`);
+        return [null, null];
+      }
+	  
       const sentAmount = Number(Number(amount).toFixed(2));
       const receivedAmount = convertCurrency(
         sentAmount,
