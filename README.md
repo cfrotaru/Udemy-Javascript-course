@@ -22,13 +22,13 @@ It includes:
 
 Some of the projects/exercises included:
 
-- Guess My Number 🎲 **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/05-Guess-My-Number/starter)**
-- Modal Window 🪟 **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/06-Modal/starter)**
-- Pig Game 🐷 **[Netlify App](https://pig-game-cfrotaru.netlify.app/)** | **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/07-Pig-Game/starter)**
-- Bankist App 🏦 **[Netlify App](https://bankist-cfrotaru.netlify.app/)** | **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/11-Arrays-Bankist/starter)**
-- Bankist Website 🌐 **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/13-Advanced-DOM-Bankist/starter)**
-- Mapty ⛹️‍♂️ **[Netlify App](https://mapty-cfrotaru.netlify.app/)** | **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/15-Mapty/starter)**
-- Forkify 🍴 **[Netlify App](https://forkify-cfrotaru.netlify.app/)** | **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/18-forkify/starter)**
+- Guess My Number 🎲 <a href="https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/05-Guess-My-Number/starter" target="_blank" rel="noopener noreferrer">GitHub Folder</a>
+- Modal Window 🪟 <a href="https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/06-Modal/starter" target="_blank" rel="noopener noreferrer">GitHub Folder</a>
+- Pig Game 🐷 <a href="https://pig-game-cfrotaru.netlify.app/" target="_blank" rel="noopener noreferrer">Netlify App</a> | <a href="https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/07-Pig-Game/starter" target="_blank" rel="noopener noreferrer">GitHub Folder</a>
+- Bankist App 🏦 <a href="https://bankist-cfrotaru.netlify.app/" target="_blank" rel="noopener noreferrer">Netlify App</a> | <a href="https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/11-Arrays-Bankist/starter" target="_blank" rel="noopener noreferrer">GitHub Folder</a>
+- Bankist Website 🌐 <a href="https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/13-Advanced-DOM-Bankist/starter" target="_blank" rel="noopener noreferrer">GitHub Folder</a>
+- Mapty ⛹️‍♂️ <a href="https://mapty-cfrotaru.netlify.app/" target="_blank" rel="noopener noreferrer">Netlify App</a> | <a href="https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/15-Mapty/starter" target="_blank" rel="noopener noreferrer">GitHub Folder</a>
+- Forkify 🍴 <a href="https://forkify-cfrotaru.netlify.app/" target="_blank" rel="noopener noreferrer">Netlify App</a> | <a href="https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/18-forkify/starter" target="_blank" rel="noopener noreferrer">GitHub Folder</a>
 
 _(plus smaller exercises and coding challenges)_
 
