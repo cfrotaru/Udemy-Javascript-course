@@ -26,7 +26,7 @@ Some of the projects/exercises included:
 - Modal Window 🪟 **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/06-Modal/starter)**
 - Pig Game 🐷 **[Netlify App](https://pig-game-cfrotaru.netlify.app/)** | **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/07-Pig-Game/starter)**
 - Bankist App 🏦 **[Netlify App](https://bankist-cfrotaru.netlify.app/)** | **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/11-Arrays-Bankist/starter)**
-- Bankist Website 🌐 **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/13-Advanced-DOM-Bankist/starter)**
+- Bankist Website 🌐 **[Netlify App](https://bankist-dom-manipulation-cfrotaru.netlify.app/)** | **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/13-Advanced-DOM-Bankist/starter)**
 - Mapty ⛹️‍♂️ **[Netlify App](https://mapty-cfrotaru.netlify.app/)** | **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/15-Mapty/starter)**
 - Forkify 🍴 **[Netlify App](https://forkify-cfrotaru.netlify.app/)** | **[GitHub Folder](https://github.com/cfrotaru/Udemy-Javascript-course/tree/master/18-forkify/starter)**
 
